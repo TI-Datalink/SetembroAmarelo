@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#ffd21f">
+<meta property="og:title" content="Memória que Acolhe — Setembro Amarelo">
+<meta property="og:description" content="Jogo da memória da DATALINK cuida — encontre os pares e descubra mensagens de acolhimento.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Memória que Acolhe — Setembro Amarelo</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#fffdf0,#fff3a8);color:#102f63;min-height:100vh}
+.container{max-width:1180px;margin:auto;padding:22px}
+header{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.logo{width:190px;max-height:80px;object-fit:contain;object-position:left center}
+.logo-text{width:190px;line-height:1.05;font-weight:bold}
+.logo-text b{display:block;font-size:29px;letter-spacing:-1px;color:#102f63}
+.logo-text i{display:block;font-size:18px;font-family:cursive;color:#f4c400}
+.title{text-align:center;flex:1}
+.title h1{margin:0;font-size:clamp(30px,5vw,52px);letter-spacing:-1px}
+.title h1 span{color:#f4c400;font-family:cursive;font-style:italic}
+.title p{margin:5px 0 0;font-weight:bold;color:#555}
+.ribbon{font-size:42px}
+.layout{display:grid;grid-template-columns:260px 1fr;gap:22px;margin-top:20px}
+.panel,.gamebox{background:rgba(255,255,255,.88);border-radius:22px;box-shadow:0 8px 28px rgba(20,48,90,.12);padding:22px}
+.panel h2{margin-top:0}
+.how{display:grid;gap:13px}
+.how div{display:flex;gap:10px;align-items:center;color:#333}
+.icon{width:40px;height:40px;display:grid;place-items:center;background:#ffe27a;border-radius:12px;font-size:22px}
+.rules-top{display:flex;flex-wrap:wrap;gap:9px;align-items:center;background:#fff3b5;border:2px solid #ffe08a;border-radius:18px;padding:14px 16px;margin-bottom:16px;color:#333}
+.rules-top strong{color:#102f63;font-size:18px}
+.rules-top span{background:#fffdf5;border-radius:10px;padding:8px 10px;font-size:14px}
+.message{margin-top:18px;padding:15px;border-radius:16px;background:#fff3b5;color:#333}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.stat{background:#fffaf0;border:2px solid #ffe38a;border-radius:15px;padding:12px;text-align:center}
+.stat b{display:block;font-size:25px;color:#102f63}
+.stat small{color:#666}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{aspect-ratio:1/1;perspective:900px;cursor:pointer}
+.card-inner{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.card.flipped .card-inner,.card.matched .card-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;border:4px solid #fff;box-shadow:0 5px 12px rgba(0,0,0,.12);display:grid;place-items:center}
+.back{background:linear-gradient(145deg,#ffd62e,#ffe98d);color:#12366d;font-weight:bold;font-size:25px}
+.back .mini{font-size:12px;margin-top:7px;color:#d12c20}
+.front{transform:rotateY(180deg);background:#fffdf5;text-align:center;padding:8px}
+.front .emoji{font-size:clamp(30px,5vw,48px)}
+.front .word{font-weight:bold;font-size:clamp(14px,2vw,20px);margin-top:5px}
+.front .tip{font-size:clamp(14px,1.8vw,18px);line-height:1.3;color:#17345f;margin-top:10px;font-weight:700}
+.card.matched .front{box-shadow:0 0 0 4px #f4c400 inset,0 5px 12px rgba(0,0,0,.12)}
+.pair-pop{animation:pairPop .65s cubic-bezier(.2,.8,.2,1)}
+@keyframes pairPop{0%{transform:scale(.72);opacity:0}55%{transform:scale(1.06);opacity:1}100%{transform:scale(1);opacity:1}}
+.bottom{margin-top:18px;padding:16px;border-radius:16px;background:#fff9df;text-align:center;color:#333}
+button{border:0;border-radius:14px;background:#f6c900;color:#102f63;font-weight:bold;font-size:17px;padding:14px 22px;cursor:pointer;box-shadow:0 4px 0 #d7aa00}
+button:active{transform:translateY(2px);box-shadow:0 2px 0 #d7aa00}
+#status{min-height:24px;font-weight:bold}
+footer{margin-top:20px;background:#082d63;color:white;border-radius:18px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+footer strong{color:#ffd21f}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.panel{order:2}.board{grid-template-columns:repeat(3,1fr)}.logo,.logo-text{width:150px}.ribbon{font-size:32px}}
+@media(max-width:500px){.container{padding:12px}.stats{gap:6px}.stat{padding:9px}.stat b{font-size:20px}.board{gap:8px}.gamebox,.panel{padding:14px}}
+
+/* Efeitos visuais do acerto */
+.card.matched{animation:matchBounce .9s ease-in-out 2}
+.card.matched .front{box-shadow:0 0 0 5px #ffd21f inset,0 0 28px rgba(255,210,31,.85),0 10px 25px rgba(0,0,0,.18)}
+@keyframes matchBounce{0%,100%{transform:scale(1) rotate(0)}35%{transform:scale(1.10) rotate(-3deg)}70%{transform:scale(1.05) rotate(3deg)}}
+.card.wrong{animation:wrongShake .35s ease}
+@keyframes wrongShake{25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+.front .tip{font-size:clamp(14px,2vw,18px) !important;line-height:1.3 !important;font-weight:700 !important;color:#173b6f !important}
+.pair-overlay{position:fixed;inset:0;display:none;place-items:center;background:rgba(8,45,99,.46);backdrop-filter:blur(5px);z-index:100;padding:18px}
+.pair-overlay.show{display:grid}
+.pair-popup{width:min(560px,94vw);background:#fffdf5;border:5px solid #ffd21f;border-radius:28px;padding:30px;text-align:center;box-shadow:0 25px 70px rgba(0,0,0,.28);animation:popupIn .65s cubic-bezier(.16,1,.3,1)}
+@keyframes popupIn{0%{opacity:0;transform:translateY(30px) scale(.72) rotate(-2deg)}60%{opacity:1;transform:translateY(-5px) scale(1.06) rotate(1deg)}100%{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+.pair-popup .big-icon{width:76px;height:76px;margin:auto;border-radius:50%;display:grid;place-items:center;background:#ffd21f;font-size:42px;animation:iconPop .8s ease}
+@keyframes iconPop{0%{transform:scale(0) rotate(-30deg)}60%{transform:scale(1.18) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
+.pair-popup h2{font-size:clamp(28px,6vw,44px);margin:14px 0 8px;color:#102f63}
+.pair-popup p{font-size:clamp(18px,3vw,24px);line-height:1.4;color:#333;margin:0 0 22px;font-weight:600}
+.confetti{position:fixed;top:-20px;z-index:110;pointer-events:none;animation:confettiFall 1.5s ease-out forwards}
+@keyframes confettiFall{to{transform:translate(var(--dx),110vh) rotate(720deg);opacity:0}}
+@media(max-width:600px){.title h1{font-size:34px}.title p{font-size:14px}.board{gap:7px}.front{padding:5px}.front .word{font-size:16px}.front .tip{font-size:13px!important;line-height:1.2}.back{font-size:20px}.back .mini{font-size:9px}.stats{grid-template-columns:repeat(3,1fr)}.stat small{font-size:10px}.rules-top span{font-size:12px}.rules-top strong{font-size:16px}}
+
+/* Mobile / WhatsApp */
+@media(max-width:800px){body{font-size:15px}.container{padding:10px}header{gap:8px;justify-content:center}.logo,.logo-text{width:120px;max-height:58px}.logo-text b{font-size:21px}.logo-text i{font-size:13px}.title{min-width:200px}.title h1{font-size:clamp(25px,8vw,38px);line-height:1}.title p{font-size:11px;line-height:1.2}.ribbon{font-size:27px}.layout{display:flex;flex-direction:column;gap:12px;margin-top:12px}.panel{order:0;padding:14px;border-radius:18px}.panel h2{font-size:20px;margin:0 0 9px}.how{gap:7px}.how div{font-size:13px}.icon{width:32px;height:32px;min-width:32px;font-size:17px}.message{margin-top:10px;padding:10px;font-size:13px;line-height:1.3}.gamebox{order:1;padding:12px;border-radius:18px}.rules-top{padding:10px;gap:6px;margin-bottom:10px;font-size:12px}.rules-top strong{font-size:15px;width:100%}.rules-top span{padding:6px 7px;font-size:11px}.stats{gap:6px;margin-bottom:10px}.stat{padding:7px 4px;border-radius:11px}.stat b{font-size:19px}.stat small{font-size:9px}.board{grid-template-columns:repeat(3,1fr);gap:7px}.face{border-width:2px;border-radius:12px;padding:5px}.back{font-size:19px}.back .mini{font-size:8px}.front{overflow:hidden}.front .emoji{font-size:29px}.front .word{font-size:14px;line-height:1.05}.front .tip{font-size:11px;line-height:1.15;margin-top:5px}.bottom{margin-top:10px;padding:10px;font-size:12px;line-height:1.3}footer{margin-top:12px;padding:12px;font-size:12px;border-radius:14px}footer button{width:100%;font-size:14px;padding:11px}.pair-overlay{padding:12px}.pair-popup{padding:22px 16px;border-width:3px;border-radius:22px}.pair-popup h2{font-size:29px;line-height:1.05}.pair-popup p{font-size:17px;line-height:1.35}.pair-popup .big-icon{width:62px;height:62px;font-size:34px}.pair-popup button{font-size:14px;padding:11px 16px}}
+@media(max-width:390px){.logo,.logo-text{width:105px}.title h1{font-size:27px}.title p{font-size:10px}.front .emoji{font-size:23px}.front .word{font-size:11px}.front .tip{font-size:9px}.back{font-size:16px}.back .mini{font-size:7px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <img class="logo" id="logo" src="logo.png" alt="DATALINK cuida">
+  <div class="title">
+    <h1>Memória que <span>Acolhe</span></h1>
+    <p>Setembro Amarelo • Valorizar a vida também é cuidar</p>
+  </div>
+  <div class="ribbon">🎗️</div>
+</header>
+
+<div class="layout">
+  <aside class="panel">
+    <h2>🌻 Como jogar</h2>
+    <div class="how">
+      <div><span class="icon">👆</span><span>Vire duas cartas por vez.</span></div>
+      <div><span class="icon">💛</span><span>Encontre os pares.</span></div>
+      <div><span class="icon">🏆</span><span>Complete todos os pares com o menor número de tentativas.</span></div>
+    </div>
+    <div class="message">💬 <b>Falar é uma forma de cuidar.</b><br>Ouvir com atenção pode fazer diferença no dia de alguém.</div>
+  </aside>
+
+  <main class="gamebox">
+    <div class="rules-top">
+      <strong>🌻 COMO JOGAR</strong>
+      <span>1. Clique em duas cartas para virá-las.</span>
+      <span>2. Encontre os pares iguais.</span>
+      <span>3. Ao acertar, veja a mensagem especial.</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><small>TENTATIVAS</small><b id="attempts">0</b></div>
+      <div class="stat"><small>TEMPO</small><b id="timer">00:00</b></div>
+      <div class="stat"><small>PARES</small><b id="pairs">0/6</b></div>
+    </div>
+    <div id="status"></div>
+    <div class="board" id="board"></div>
+    <div class="bottom" id="pairMessage">
+      💛 Encontre um par para descobrir uma mensagem de acolhimento.
+    </div>
+  </main>
+</div>
+
+<footer>
+  <div>🎗️ <strong>A vida é o bem mais precioso.</strong><br>Vamos cuidar juntos.</div>
+  <button id="restart">↻ JOGAR NOVAMENTE</button>
+</footer>
+</div>
+
+<div class="pair-overlay" id="pairOverlay">
+  <div class="pair-popup">
+    <div class="big-icon" id="pairIcon">💛</div>
+    <h2 id="pairTitle">ACOLHIMENTO</h2>
+    <p id="pairText"></p>
+    <button id="continue">CONTINUAR JOGANDO</button>
+  </div>
+</div>
+
+<script>
+const cardsData=[
+ {word:"Acolhimento",emoji:"🫂",tip:"Receber sem julgamentos."},
+ {word:"Empatia",emoji:"💛",tip:"Tentar compreender o outro."},
+ {word:"Escuta",emoji:"👂",tip:"Ouvir com atenção."},
+ {word:"Apoio",emoji:"🤝",tip:"Ninguém precisa enfrentar tudo sozinho."},
+ {word:"Cuidado",emoji:"🌻",tip:"Pequenos gestos importam."},
+ {word:"Amizade",emoji:"😊",tip:"Estar presente também é cuidar."}
+];
+
+const pairMessages={
+ "Acolhimento":["🫂","ACOLHIMENTO","Acolher alguém é oferecer um lugar seguro, sem julgamentos."],
+ "Empatia":["💛","EMPATIA","Tentar compreender o que o outro sente pode fazer diferença."],
+ "Escuta":["👂","ESCUTA","Ouvir com atenção é um gesto simples que pode acolher muito."],
+ "Apoio":["🤝","APOIO","Ninguém precisa enfrentar tudo sozinho. Estar presente importa."],
+ "Cuidado":["🌻","CUIDADO","Pequenos gestos de cuidado podem transformar o dia de alguém."],
+ "Amizade":["😊","AMIZADE","Estar presente e demonstrar carinho também é uma forma de cuidar."]
+};
+
+const $=id=>document.getElementById(id);
+let first=null,second=null,lock=false,attempts=0,pairs=0,seconds=0,timerId=null,started=false;
+
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function fmt(n){return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0")}
+
+function startTimer(){
+  if(started)return;
+  started=true;
+  timerId=setInterval(()=>{seconds++;$("timer").textContent=fmt(seconds)},1000);
+}
+function stopTimer(){clearInterval(timerId);timerId=null}
+
+function confetti(){
+  const cores=["#ffd21f","#f6c900","#102f63","#ffe98d","#d12c20","#ffffff"];
+  for(let i=0;i<40;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.width=(6+Math.random()*8)+"px";
+    c.style.height=(10+Math.random()*10)+"px";
+    c.style.background=cores[Math.floor(Math.random()*cores.length)];
+    c.style.borderRadius=Math.random()>.5?"50%":"2px";
+    c.style.setProperty("--dx",(Math.random()*200-100)+"px");
+    c.style.animationDelay=(Math.random()*.35)+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2200);
+  }
+}
+
+function showPairPopup(word){
+  const d=pairMessages[word];
+  if(!d)return;
+  $("pairIcon").textContent=d[0];
+  $("pairTitle").textContent=d[1];
+  $("pairText").textContent=d[2];
+  $("pairMessage").innerHTML="💛 <b>"+d[1]+"</b> — "+d[2];
+  $("pairOverlay").classList.add("show");
+  confetti();
+}
+
+function closePairPopup(){
+  $("pairOverlay").classList.remove("show");
+  if(pairs===cardsData.length)finish();
+}
+
+function finish(){
+  stopTimer();
+  $("status").innerHTML="🏆 Parabéns! Você encontrou todos os pares em <b>"+attempts+"</b> tentativas e <b>"+fmt(seconds)+"</b>.";
+  $("pairMessage").innerHTML="🎗️ <b>Cuidar da vida é um gesto diário.</b><br>Se precisar conversar, o CVV atende 24h pelo <b>188</b> (ligação gratuita) e em <b>cvv.org.br</b>.";
+  confetti();
+}
+
+function buildCard(item){
+  const card=document.createElement("div");
+  card.className="card pair-pop";
+  card.dataset.word=item.word;
+  card.innerHTML=
+    '<div class="card-inner">'+
+      '<div class="face back">🎗️<div class="mini">SETEMBRO AMARELO</div></div>'+
+      '<div class="face front">'+
+        '<div class="emoji">'+item.emoji+'</div>'+
+        '<div class="word">'+item.word+'</div>'+
+        '<div class="tip">'+item.tip+'</div>'+
+      '</div>'+
+    '</div>';
+  card.addEventListener("click",()=>flip(card));
+  return card;
+}
+
+function flip(card){
+  if(lock)return;
+  if(card.classList.contains("flipped")||card.classList.contains("matched"))return;
+  startTimer();
+  card.classList.add("flipped");
+  if(!first){first=card;return}
+  second=card;
+  lock=true;
+  attempts++;
+  $("attempts").textContent=attempts;
+  const a=first,b=second;
+
+  if(a.dataset.word===b.dataset.word){
+    setTimeout(()=>{
+      a.classList.add("matched");b.classList.add("matched");
+      a.classList.remove("flipped");b.classList.remove("flipped");
+      pairs++;
+      $("pairs").textContent=pairs+"/"+cardsData.length;
+      showPairPopup(a.dataset.word);
+      reset();
+    },420);
+  }else{
+    a.classList.add("wrong");b.classList.add("wrong");
+    setTimeout(()=>{
+      a.classList.remove("flipped","wrong");
+      b.classList.remove("flipped","wrong");
+      reset();
+    },900);
+  }
+}
+
+function reset(){first=null;second=null;lock=false}
+
+function startGame(){
+  stopTimer();
+  first=second=null;lock=false;attempts=0;pairs=0;seconds=0;started=false;
+  $("attempts").textContent="0";
+  $("timer").textContent="00:00";
+  $("pairs").textContent="0/"+cardsData.length;
+  $("status").textContent="";
+  $("pairMessage").innerHTML="💛 Encontre um par para descobrir uma mensagem de acolhimento.";
+  $("pairOverlay").classList.remove("show");
+  const board=$("board");
+  board.innerHTML="";
+  shuffle([...cardsData,...cardsData]).forEach(item=>board.appendChild(buildCard(item)));
+}
+
+$("restart").addEventListener("click",startGame);
+$("continue").addEventListener("click",closePairPopup);
+$("pairOverlay").addEventListener("click",e=>{if(e.target.id==="pairOverlay")closePairPopup()});
+$("logo").addEventListener("error",function(){
+  const d=document.createElement("div");
+  d.className="logo-text";
+  d.innerHTML="<b>DATALINK</b><i>cuida</i>";
+  this.replaceWith(d);
+});
+
+startGame();
+</script>
+</body>
+</html>
