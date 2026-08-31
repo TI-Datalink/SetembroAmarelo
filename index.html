@@ -51,7 +51,7 @@ body{
 /* ===== Enfeites de fundo ===== */
 .deco{position:absolute;z-index:1;pointer-events:none;user-select:none;line-height:1}
 .deco.ribbon{top:12px;left:14px;font-size:34px}
-.deco.sun1{top:12px;right:10px;font-size:46px}
+.deco.sun1{top:96px;right:4px;font-size:62px}
 .deco.d1{top:44px;right:96px;font-size:16px;color:var(--amarelo);opacity:.75}
 .deco.d2{top:96px;left:20px;font-size:13px;color:var(--amarelo);opacity:.7}
 .deco.d3{top:150px;right:22px;font-size:12px;color:var(--amarelo);opacity:.6}
@@ -62,7 +62,7 @@ body{
 .logo{width:210px;max-width:70%;max-height:78px;object-fit:contain}
 .logo-text{display:inline-block;line-height:1.02;font-weight:bold}
 .logo-text b{display:block;font-size:34px;letter-spacing:-1.5px;color:var(--azul)}
-.logo-text i{display:block;font-size:21px;font-family:"Segoe Script","Brush Script MT",cursive;color:var(--vermelho);margin-top:-2px}
+.logo-text i{display:block;font-size:26px;font-family:"Segoe Script","Brush Script MT",cursive;color:var(--vermelho);margin-top:-2px}
 
 .titlebar{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0 10px}
 .marks{display:flex;gap:3px}
@@ -158,7 +158,7 @@ h1 span{color:var(--amarelo-esc)}
 .care strong{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.4px;color:var(--azul)}
 .care p{margin:3px 0 0;font-size:11.5px;line-height:1.35;color:var(--texto)}
 .care .sign{margin-top:4px;font-size:12px;font-weight:bold;color:var(--azul)}
-.care .sign i{font-family:"Segoe Script","Brush Script MT",cursive;color:var(--vermelho);font-size:13px}
+.care .sign i{font-family:"Segoe Script","Brush Script MT",cursive;color:var(--vermelho);font-size:1.4em}
 
 .bar{
   background:var(--azul-esc);color:var(--amarelo);
@@ -214,7 +214,7 @@ h1 span{color:var(--amarelo-esc)}
   .back{font-size:25px}
   .btn{font-size:10.5px;padding:10px 4px;gap:4px}
   .stat b{font-size:18px}
-  .deco.sun1{font-size:38px;top:12px}
+  .deco.sun1{font-size:52px;top:82px;right:2px}
 }
 
 /* ===== Tablet e desktop ===== */
@@ -245,7 +245,7 @@ h1 span{color:var(--amarelo-esc)}
   .care .sign{font-size:14px}
   .bar{font-size:13px;padding:14px}
   .deco.ribbon{font-size:44px;top:18px;left:20px}
-  .deco.sun1{font-size:58px;top:16px;right:16px}
+  .deco.sun1{font-size:78px;top:120px;right:6px}
   .popup{padding:32px 26px}
   .popup h2{font-size:32px}
   .popup p{font-size:17px}
@@ -281,7 +281,7 @@ h1 span{color:var(--amarelo-esc)}
   .care p{font-size:14px}
   .care .sign{font-size:16px}
   .bar{font-size:14px;padding:16px}
-  .deco.sun1{font-size:70px;top:18px;right:22px}
+  .deco.sun1{font-size:94px;top:150px;right:8px}
   .deco.ribbon{font-size:52px}
 }
 
@@ -318,8 +318,8 @@ h1 span{color:var(--amarelo-esc)}
 /* ===== Logo menor e alinhada a esquerda ===== */
 .brand{text-align:center;margin-bottom:8px}
 .logo{width:150px;max-height:56px}
-.deco.ribbon{left:14px;right:auto;top:18px;font-size:34px}
-.deco.d4{left:auto;right:34px;top:68px}
+.deco.ribbon{left:10px;right:auto;top:12px;font-size:44px}
+.deco.d4{left:24px;right:auto;top:70px}
 .actions{grid-template-columns:1fr 1fr}
 
 /* ===== Como jogar entre o placar e as cartas ===== */
@@ -336,23 +336,23 @@ h1 span{color:var(--amarelo-esc)}
 
 @media(max-width:380px){
   .logo{width:128px;max-height:48px}
-  .deco.ribbon{font-size:28px;top:16px}
+  .deco.ribbon{font-size:37px;top:10px;left:8px}
   .rules-top{padding:9px 10px;gap:6px}
   .rules-top strong{font-size:13px}
   .rules-top span{font-size:10px;padding:5px 7px}
 }
 @media(min-width:640px){
   .logo{width:190px;max-height:70px}
-  .deco.ribbon{left:20px;right:auto;top:24px;font-size:42px}
-  .deco.d4{left:auto;right:44px;top:84px}
+  .deco.ribbon{left:14px;right:auto;top:16px;font-size:56px}
+  .deco.d4{left:32px;right:auto;top:88px}
   .rules-top{padding:14px 16px;gap:9px;margin-bottom:18px}
   .rules-top strong{font-size:17px}
   .rules-top span{font-size:13px;padding:8px 11px}
 }
 @media(min-width:900px){
   .logo{width:215px;max-height:80px}
-  .deco.ribbon{font-size:52px;left:26px;top:27px}
-  .deco.d4{left:auto;right:52px;top:98px}
+  .deco.ribbon{font-size:68px;left:18px;top:20px}
+  .deco.d4{left:40px;right:auto;top:104px}
   .rules-top{padding:16px 18px;gap:10px}
   .rules-top strong{font-size:19px}
   .rules-top span{font-size:14px;padding:9px 12px}
