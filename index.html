@@ -51,7 +51,7 @@ body{
 /* ===== Enfeites de fundo ===== */
 .deco{position:absolute;z-index:1;pointer-events:none;user-select:none;line-height:1}
 .deco.ribbon{top:12px;left:14px;font-size:34px}
-.deco.sun1{top:78px;right:8px;font-size:52px}
+.deco.sun1{top:12px;right:10px;font-size:46px}
 .deco.d1{top:44px;right:96px;font-size:16px;color:var(--amarelo);opacity:.75}
 .deco.d2{top:96px;left:20px;font-size:13px;color:var(--amarelo);opacity:.7}
 .deco.d3{top:150px;right:22px;font-size:12px;color:var(--amarelo);opacity:.6}
@@ -69,9 +69,11 @@ body{
 .marks i{display:block;width:3px;height:13px;border-radius:2px;background:var(--amarelo);transform:skewX(-18deg)}
 .marks i:nth-child(2){height:17px}
 h1{
-  margin:0;font-size:26px;line-height:1.05;letter-spacing:.5px;
-  text-transform:uppercase;color:var(--azul);text-align:center;
+  margin:0;font-size:26px;line-height:1.1;letter-spacing:0;
+  font-family:"Segoe Script","Brush Script MT","Apple Chancery",cursive;
+  font-weight:bold;color:var(--azul);text-align:center;
 }
+h1 span{color:var(--amarelo-esc)}
 .badge{
   display:block;width:max-content;max-width:100%;margin:0 auto;
   background:#fff;border:2px solid var(--amarelo);border-radius:999px;
@@ -212,7 +214,7 @@ h1{
   .back{font-size:25px}
   .btn{font-size:10.5px;padding:10px 4px;gap:4px}
   .stat b{font-size:18px}
-  .deco.sun1{font-size:42px}
+  .deco.sun1{font-size:38px;top:12px}
 }
 
 /* ===== Tablet e desktop ===== */
@@ -221,7 +223,7 @@ h1{
   .app{max-width:820px;border-radius:34px}
   .app-inner{padding:26px 24px 0}
   .logo{width:250px;max-height:92px}
-  h1{font-size:34px}
+  h1{font-size:33px}
   .badge{font-size:15px;padding:7px 22px}
   .tagline{font-size:15px;margin-bottom:18px}
   .stats{padding:14px 8px;border-radius:20px;margin-bottom:18px}
@@ -243,7 +245,7 @@ h1{
   .care .sign{font-size:14px}
   .bar{font-size:13px;padding:14px}
   .deco.ribbon{font-size:44px;top:18px;left:20px}
-  .deco.sun1{font-size:66px;top:92px;right:12px}
+  .deco.sun1{font-size:58px;top:16px;right:16px}
   .popup{padding:32px 26px}
   .popup h2{font-size:32px}
   .popup p{font-size:17px}
@@ -255,7 +257,7 @@ h1{
 @media(min-width:900px){
   .app-inner{padding:32px 34px 0}
   .logo{width:300px;max-height:110px}
-  h1{font-size:42px}
+  h1{font-size:39px}
   .marks i{width:4px;height:18px}
   .marks i:nth-child(2){height:23px}
   .badge{font-size:17px;padding:8px 26px}
@@ -279,7 +281,7 @@ h1{
   .care p{font-size:14px}
   .care .sign{font-size:16px}
   .bar{font-size:14px;padding:16px}
-  .deco.sun1{font-size:80px;top:100px}
+  .deco.sun1{font-size:70px;top:18px;right:22px}
   .deco.ribbon{font-size:52px}
 }
 
@@ -314,10 +316,10 @@ h1{
 }
 
 /* ===== Logo menor e alinhada a esquerda ===== */
-.brand{text-align:left;margin-bottom:8px}
+.brand{text-align:center;margin-bottom:8px}
 .logo{width:150px;max-height:56px}
-.deco.ribbon{left:auto;right:14px;top:10px;font-size:30px}
-.deco.d4{right:auto;left:150px;top:20px}
+.deco.ribbon{left:14px;right:auto;top:18px;font-size:34px}
+.deco.d4{left:auto;right:34px;top:68px}
 .actions{grid-template-columns:1fr 1fr}
 
 /* ===== Como jogar entre o placar e as cartas ===== */
@@ -326,7 +328,7 @@ h1{
   background:var(--amarelo-claro);border:2px solid var(--borda);border-radius:16px;
   padding:11px 13px;margin-bottom:14px;
 }
-.rules-top strong{width:100%;font-size:12.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--azul)}
+.rules-top strong{width:100%;font-size:14.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--azul)}
 .rules-top span{
   background:#fffdf5;border:1px solid var(--borda);border-radius:10px;
   padding:6px 9px;font-size:11px;line-height:1.25;color:var(--texto);font-weight:600;
@@ -334,34 +336,41 @@ h1{
 
 @media(max-width:380px){
   .logo{width:128px;max-height:48px}
-  .deco.ribbon{font-size:26px}
+  .deco.ribbon{font-size:28px;top:16px}
   .rules-top{padding:9px 10px;gap:6px}
-  .rules-top strong{font-size:11.5px}
+  .rules-top strong{font-size:13px}
   .rules-top span{font-size:10px;padding:5px 7px}
 }
 @media(min-width:640px){
   .logo{width:190px;max-height:70px}
-  .deco.ribbon{left:auto;right:20px;top:16px;font-size:38px}
-  .deco.d4{left:200px}
+  .deco.ribbon{left:20px;right:auto;top:24px;font-size:42px}
+  .deco.d4{left:auto;right:44px;top:84px}
   .rules-top{padding:14px 16px;gap:9px;margin-bottom:18px}
-  .rules-top strong{font-size:14.5px}
+  .rules-top strong{font-size:17px}
   .rules-top span{font-size:13px;padding:8px 11px}
 }
 @media(min-width:900px){
   .logo{width:215px;max-height:80px}
-  .deco.ribbon{font-size:44px;right:26px}
-  .deco.d4{left:240px}
+  .deco.ribbon{font-size:52px;left:26px;top:27px}
+  .deco.d4{left:auto;right:52px;top:98px}
   .rules-top{padding:16px 18px;gap:10px}
-  .rules-top strong{font-size:16px}
+  .rules-top strong{font-size:19px}
   .rules-top span{font-size:14px;padding:9px 12px}
 }
+
+/* ===== Enfeites em SVG (iguais em qualquer dispositivo) ===== */
+.deco svg{display:block;width:.95em;height:.95em}
+
+/* ===== Icones das cartas em SVG ===== */
+.front .emoji svg,.back svg{display:block;width:1em;height:1em}
+.popup .big-icon svg{display:block;width:64%;height:64%}
 </style>
 </head>
 <body>
 
 <div class="app">
-  <span class="deco ribbon">🎗️</span>
-  <span class="deco sun1">🌻</span>
+  <span class="deco ribbon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><path d="M40 60C30 46 20 34 24 20 28 8 40 8 43 20 47 34 34 46 24 60" stroke="#ffd21f" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  <span class="deco sun1" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 42v20" stroke="#4b9b3f" stroke-width="4" stroke-linecap="round"/><path d="M32 52c-7 1-11-3-12-9 7-1 11 3 12 9zM32 56c7 1 11-3 12-9-7-1-11 3-12 9z" fill="#5cb050"/><g fill="#f5c60c"><ellipse cx="32" cy="12" rx="5" ry="10"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(36 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(72 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(108 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(144 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(180 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(216 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(252 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(288 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(324 32 30)"/></g><g fill="#ffd21f"><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(18 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(54 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(90 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(126 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(162 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(198 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(234 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(270 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(306 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(342 32 30)"/></g><circle cx="32" cy="30" r="9.5" fill="#6b4a1f"/><circle cx="32" cy="30" r="6" fill="#583c18"/></svg></span>
   <span class="deco d1">♥</span>
   <span class="deco d2">♥</span>
   <span class="deco d3">♥</span>
@@ -375,7 +384,7 @@ h1{
 
     <div class="titlebar">
       <span class="marks"><i></i><i></i><i></i></span>
-      <h1>Memórias que acolhem</h1>
+      <h1>Memórias que <span>acolhem</span></h1>
       <span class="marks"><i></i><i></i><i></i></span>
     </div>
 
@@ -388,7 +397,7 @@ h1{
       <div class="stat"><span class="ico">🔄</span><small>TENTATIVAS</small><b id="attempts">0</b></div>
     </div>
     <div class="rules-top">
-      <strong>🌻 Como jogar</strong>
+      <strong>Como jogar</strong>
       <span>1. Clique em duas cartas para virá-las.</span>
       <span>2. Encontre os pares.</span>
       <span>3. Aproveite a mensagem especial.</span>
@@ -444,6 +453,17 @@ const cardsData=[
  {word:"Cuidado",emoji:"🌻",tip:"Pequenos gestos importam."},
  {word:"Amizade",emoji:"😊",tip:"Estar presente é cuidar."}
 ];
+
+const svgHeart='<svg viewBox="0 0 64 64"><path d="M32 56S6 40 6 24C6 14 13 8 21 8c5 0 9 3 11 6 2-3 6-6 11-6 8 0 15 6 15 16 0 16-26 32-26 32z" fill="#f5c60c"/></svg>';
+
+const icons={
+ "Acolhimento":'<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#ffd21f"/><circle cx="23" cy="22" r="6.5" fill="#2b5299"/><path d="M23 31c-7 0-12 5-12 12v7h24v-7c0-7-5-12-12-12z" fill="#2b5299"/><circle cx="41" cy="22" r="6.5" fill="#102f63"/><path d="M41 31c-7 0-12 5-12 12v7h24v-7c0-7-5-12-12-12z" fill="#102f63"/></svg>',
+ "Empatia":'<svg viewBox="0 0 64 64"><path d="M32 56S6 40 6 24C6 14 13 8 21 8c5 0 9 3 11 6 2-3 6-6 11-6 8 0 15 6 15 16 0 16-26 32-26 32z" fill="#f5c60c" stroke="#e0a800" stroke-width="2"/></svg>',
+ "Escuta":'<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#ffd21f"/><path d="M25 50v-5c0-4-1-6-3-9-2-3-3-5-3-9 0-8 6-13 14-13s14 5 14 12c0 5-3 8-6 10-2 2-3 3-3 6 0 5-4 8-8 8" fill="none" stroke="#102f63" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 32c0-3 2-5 5-5s5 2 5 5" fill="none" stroke="#102f63" stroke-width="4" stroke-linecap="round"/></svg>',
+ "Apoio":'<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#ffd21f"/><path d="M32 36s-11-6-11-13c0-4 3-6 6-6 2 0 4 1 5 3 1-2 3-3 5-3 3 0 6 2 6 6 0 7-11 13-11 13z" fill="#e34a3f"/><path d="M12 40c0-3 3-6 6-4l14 7 14-7c3-2 6 1 6 4 0 2-1 3-2 4L35 54c-2 1-4 1-6 0L14 44c-1-1-2-2-2-4z" fill="#102f63"/></svg>',
+ "Cuidado":'<svg viewBox="0 0 64 64"><g fill="#f5c60c"><ellipse cx="32" cy="12" rx="5" ry="10"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(36 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(72 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(108 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(144 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(180 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(216 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(252 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(288 32 30)"/><ellipse cx="32" cy="12" rx="5" ry="10" transform="rotate(324 32 30)"/></g><g fill="#ffd21f"><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(18 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(54 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(90 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(126 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(162 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(198 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(234 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(270 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(306 32 30)"/><ellipse cx="32" cy="14" rx="4" ry="8" transform="rotate(342 32 30)"/></g><circle cx="32" cy="30" r="9.5" fill="#6b4a1f"/><circle cx="32" cy="30" r="6" fill="#583c18"/></svg>',
+ "Amizade":'<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#ffd21f" stroke="#e0a800" stroke-width="3"/><circle cx="23" cy="26" r="3.8" fill="#102f63"/><circle cx="41" cy="26" r="3.8" fill="#102f63"/><path d="M20 38c3 7 21 7 24 0" fill="none" stroke="#102f63" stroke-width="4.5" stroke-linecap="round"/></svg>'
+};
 
 const pairMessages={
  "Acolhimento":["🫂","Acolhimento","Acolher alguém é oferecer um lugar seguro, sem julgamentos."],
@@ -505,7 +525,7 @@ function confetti(){
 function showPairPopup(word){
   const d=pairMessages[word];
   if(!d)return;
-  $("pairIcon").textContent=d[0];
+  $("pairIcon").innerHTML=icons[word]||d[0];
   $("pairTitle").textContent=d[1];
   $("pairText").textContent=d[2];
   $("pairOverlay").classList.add("show");
@@ -531,9 +551,9 @@ function buildCard(item,i){
   card.style.animationDelay=(i*40)+"ms";
   card.innerHTML=
     '<div class="card-inner">'+
-      '<div class="face back">&hearts;</div>'+
+      '<div class="face back">'+svgHeart+'</div>'+
       '<div class="face front">'+
-        '<div class="emoji">'+item.emoji+'</div>'+
+        '<div class="emoji">'+(icons[item.word]||item.emoji)+'</div>'+
         '<div class="word">'+item.word+'</div>'+
         '<div class="tip">'+item.tip+'</div>'+
       '</div>'+
