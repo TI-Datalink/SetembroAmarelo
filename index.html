@@ -2,169 +2,476 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#ffd21f">
-<meta property="og:title" content="Memória que Acolhe — Setembro Amarelo">
+<meta property="og:title" content="Cada Par, Um Cuidado — Setembro Amarelo">
 <meta property="og:description" content="Jogo da memória da DATALINK cuida — encontre os pares e descubra mensagens de acolhimento.">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Memória que Acolhe — Setembro Amarelo</title>
+<title>Cada Par, Um Cuidado — Setembro Amarelo</title>
 <style>
+:root{
+  --amarelo:#ffd21f;
+  --amarelo-esc:#f0b800;
+  --amarelo-claro:#fff3b5;
+  --borda:#ffe08a;
+  --azul:#102f63;
+  --azul-esc:#082d63;
+  --creme:#fffdf4;
+  --texto:#4a5568;
+  --vermelho:#d12c20;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#fffdf0,#fff3a8);color:#102f63;min-height:100vh}
-.container{max-width:1180px;margin:auto;padding:22px}
-header{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.logo{width:190px;max-height:80px;object-fit:contain;object-position:left center}
-.logo-text{width:190px;line-height:1.05;font-weight:bold}
-.logo-text b{display:block;font-size:29px;letter-spacing:-1px;color:#102f63}
-.logo-text i{display:block;font-size:18px;font-family:cursive;color:#f4c400}
-.title{text-align:center;flex:1}
-.title h1{margin:0;font-size:clamp(30px,5vw,52px);letter-spacing:-1px}
-.title h1 span{color:#f4c400;font-family:cursive;font-style:italic}
-.title p{margin:5px 0 0;font-weight:bold;color:#555}
-.ribbon{font-size:42px}
-.layout{display:grid;grid-template-columns:260px 1fr;gap:22px;margin-top:20px}
-.panel,.gamebox{background:rgba(255,255,255,.88);border-radius:22px;box-shadow:0 8px 28px rgba(20,48,90,.12);padding:22px}
-.panel h2{margin-top:0}
-.how{display:grid;gap:13px}
-.how div{display:flex;gap:10px;align-items:center;color:#333}
-.icon{width:40px;height:40px;display:grid;place-items:center;background:#ffe27a;border-radius:12px;font-size:22px}
-.rules-top{display:flex;flex-wrap:wrap;gap:9px;align-items:center;background:#fff3b5;border:2px solid #ffe08a;border-radius:18px;padding:14px 16px;margin-bottom:16px;color:#333}
-.rules-top strong{color:#102f63;font-size:18px}
-.rules-top span{background:#fffdf5;border-radius:10px;padding:8px 10px;font-size:14px}
-.message{margin-top:18px;padding:15px;border-radius:16px;background:#fff3b5;color:#333}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
-.stat{background:#fffaf0;border:2px solid #ffe38a;border-radius:15px;padding:12px;text-align:center}
-.stat b{display:block;font-size:25px;color:#102f63}
-.stat small{color:#666}
-.board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+  background:#fdf4d8;
+  color:var(--azul);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  padding:14px;
+  -webkit-text-size-adjust:100%;
+}
+
+/* ===== Cartao principal ===== */
+.app{
+  position:relative;
+  width:100%;
+  max-width:620px;
+  background:var(--creme);
+  border:2px solid var(--borda);
+  border-radius:30px;
+  box-shadow:0 18px 50px rgba(20,48,90,.16);
+  overflow:hidden;
+  align-self:flex-start;
+}
+.app-inner{position:relative;z-index:2;padding:18px 16px 0}
+
+/* ===== Enfeites de fundo ===== */
+.deco{position:absolute;z-index:1;pointer-events:none;user-select:none;line-height:1}
+.deco.ribbon{top:12px;left:14px;font-size:34px}
+.deco.sun1{top:78px;right:8px;font-size:60px}
+.deco.sun2{bottom:66px;right:10px;font-size:34px;opacity:.9}
+.deco.d1{top:44px;right:96px;font-size:16px;color:var(--amarelo);opacity:.75}
+.deco.d2{top:96px;left:20px;font-size:13px;color:var(--amarelo);opacity:.7}
+.deco.d3{top:150px;right:22px;font-size:12px;color:var(--amarelo);opacity:.6}
+.deco.d4{top:24px;right:26px;font-size:14px;color:var(--amarelo);opacity:.65}
+
+/* ===== Cabecalho ===== */
+.brand{text-align:center;margin-bottom:10px}
+.logo{width:210px;max-width:70%;max-height:78px;object-fit:contain}
+.logo-text{display:inline-block;line-height:1.02;font-weight:bold}
+.logo-text b{display:block;font-size:34px;letter-spacing:-1.5px;color:var(--azul)}
+.logo-text i{display:block;font-size:21px;font-family:"Segoe Script","Brush Script MT",cursive;color:var(--vermelho);margin-top:-2px}
+
+.titlebar{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0 10px}
+.marks{display:flex;gap:3px}
+.marks i{display:block;width:3px;height:13px;border-radius:2px;background:var(--amarelo);transform:skewX(-18deg)}
+.marks i:nth-child(2){height:17px}
+h1{
+  margin:0;font-size:26px;line-height:1.05;letter-spacing:.5px;
+  text-transform:uppercase;color:var(--azul);text-align:center;
+}
+.badge{
+  display:block;width:max-content;max-width:100%;margin:0 auto;
+  background:#fff;border:2px solid var(--amarelo);border-radius:999px;
+  padding:6px 18px;font-size:13px;font-weight:bold;letter-spacing:1px;
+  text-transform:uppercase;color:var(--azul);
+}
+.badge span{color:var(--amarelo-esc)}
+.tagline{text-align:center;margin:9px 0 14px;font-size:13px;font-weight:600;color:var(--texto)}
+
+/* ===== Placar ===== */
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  background:#fff;border:2px solid var(--borda);border-radius:18px;
+  padding:11px 6px;margin-bottom:14px;
+  box-shadow:0 4px 14px rgba(20,48,90,.06);
+}
+.stat{display:flex;flex-direction:column;align-items:center;gap:2px;position:relative}
+.stat+.stat::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:2px;background:#ffeeb8;border-radius:2px}
+.stat .ico{font-size:17px;line-height:1}
+.stat small{font-size:9.5px;letter-spacing:.8px;color:#8a94a6;font-weight:bold}
+.stat b{font-size:20px;color:var(--azul);line-height:1.1}
+
+/* ===== Tabuleiro ===== */
+#status{font-weight:bold;font-size:13px;text-align:center;color:var(--azul)}
+#status:not(:empty){margin-bottom:10px}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
 .card{aspect-ratio:1/1;perspective:900px;cursor:pointer}
 .card-inner{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
 .card.flipped .card-inner,.card.matched .card-inner{transform:rotateY(180deg)}
-.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;border:4px solid #fff;box-shadow:0 5px 12px rgba(0,0,0,.12);display:grid;place-items:center}
-.back{background:linear-gradient(145deg,#ffd62e,#ffe98d);color:#12366d;font-weight:bold;font-size:25px}
-.back .mini{font-size:12px;margin-top:7px;color:#d12c20}
-.front{transform:rotateY(180deg);background:#fffdf5;text-align:center;padding:8px}
-.front .emoji{font-size:clamp(30px,5vw,48px)}
-.front .word{font-weight:bold;font-size:clamp(14px,2vw,20px);margin-top:5px}
-.front .tip{font-size:clamp(14px,1.8vw,18px);line-height:1.3;color:#17345f;margin-top:10px;font-weight:700}
-.card.matched .front{box-shadow:0 0 0 4px #f4c400 inset,0 5px 12px rgba(0,0,0,.12)}
-.pair-pop{animation:pairPop .65s cubic-bezier(.2,.8,.2,1)}
-@keyframes pairPop{0%{transform:scale(.72);opacity:0}55%{transform:scale(1.06);opacity:1}100%{transform:scale(1);opacity:1}}
-.bottom{margin-top:18px;padding:16px;border-radius:16px;background:#fff9df;text-align:center;color:#333}
-button{border:0;border-radius:14px;background:#f6c900;color:#102f63;font-weight:bold;font-size:17px;padding:14px 22px;cursor:pointer;box-shadow:0 4px 0 #d7aa00}
-button:active{transform:translateY(2px);box-shadow:0 2px 0 #d7aa00}
-#status{min-height:24px;font-weight:bold}
-footer{margin-top:20px;background:#082d63;color:white;border-radius:18px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-footer strong{color:#ffd21f}
-@media(max-width:800px){.layout{grid-template-columns:1fr}.panel{order:2}.board{grid-template-columns:repeat(3,1fr)}.logo,.logo-text{width:150px}.ribbon{font-size:32px}}
-@media(max-width:500px){.container{padding:12px}.stats{gap:6px}.stat{padding:9px}.stat b{font-size:20px}.board{gap:8px}.gamebox,.panel{padding:14px}}
-
-/* Efeitos visuais do acerto */
+.face{
+  position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;
+  display:grid;place-items:center;overflow:hidden;
+  box-shadow:0 4px 10px rgba(20,48,90,.12);
+}
+.back{
+  background:
+    repeating-linear-gradient(45deg,rgba(255,255,255,.22) 0 7px,rgba(255,255,255,0) 7px 14px),
+    linear-gradient(150deg,#ffdb45,#f5c60c);
+  color:rgba(190,140,0,.55);font-size:30px;
+}
+.front{
+  transform:rotateY(180deg);background:#fffdf5;border:2px solid var(--borda);
+  text-align:center;padding:5px;align-content:center;
+}
+.front .emoji{font-size:26px;line-height:1}
+.front .word{font-weight:bold;font-size:12px;margin-top:3px;color:var(--azul);line-height:1.05}
+.front .tip{font-size:9px;line-height:1.15;color:#5b6b8a;margin-top:3px;font-weight:600}
+.card.matched .front{border-color:var(--amarelo);box-shadow:0 0 0 3px var(--amarelo) inset,0 0 20px rgba(255,210,31,.75)}
 .card.matched{animation:matchBounce .9s ease-in-out 2}
-.card.matched .front{box-shadow:0 0 0 5px #ffd21f inset,0 0 28px rgba(255,210,31,.85),0 10px 25px rgba(0,0,0,.18)}
-@keyframes matchBounce{0%,100%{transform:scale(1) rotate(0)}35%{transform:scale(1.10) rotate(-3deg)}70%{transform:scale(1.05) rotate(3deg)}}
+@keyframes matchBounce{0%,100%{transform:scale(1) rotate(0)}35%{transform:scale(1.09) rotate(-3deg)}70%{transform:scale(1.05) rotate(3deg)}}
 .card.wrong{animation:wrongShake .35s ease}
-@keyframes wrongShake{25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
-.front .tip{font-size:clamp(14px,2vw,18px) !important;line-height:1.3 !important;font-weight:700 !important;color:#173b6f !important}
-.pair-overlay{position:fixed;inset:0;display:none;place-items:center;background:rgba(8,45,99,.46);backdrop-filter:blur(5px);z-index:100;padding:18px}
-.pair-overlay.show{display:grid}
-.pair-popup{width:min(560px,94vw);background:#fffdf5;border:5px solid #ffd21f;border-radius:28px;padding:30px;text-align:center;box-shadow:0 25px 70px rgba(0,0,0,.28);animation:popupIn .65s cubic-bezier(.16,1,.3,1)}
-@keyframes popupIn{0%{opacity:0;transform:translateY(30px) scale(.72) rotate(-2deg)}60%{opacity:1;transform:translateY(-5px) scale(1.06) rotate(1deg)}100%{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
-.pair-popup .big-icon{width:76px;height:76px;margin:auto;border-radius:50%;display:grid;place-items:center;background:#ffd21f;font-size:42px;animation:iconPop .8s ease}
+@keyframes wrongShake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+.pair-pop{animation:pairPop .6s cubic-bezier(.2,.8,.2,1) backwards}
+@keyframes pairPop{0%{transform:scale(.72);opacity:0}55%{transform:scale(1.05);opacity:1}100%{transform:scale(1);opacity:1}}
+
+/* ===== Faixa de mensagem ===== */
+.msgbox{
+  display:flex;gap:10px;align-items:flex-start;
+  background:var(--amarelo-claro);border:2px solid var(--borda);border-radius:16px;
+  padding:11px 13px;margin-top:14px;
+}
+.msgbox .bubble{
+  flex:0 0 auto;width:26px;height:26px;border-radius:50%;
+  background:var(--amarelo);display:grid;place-items:center;font-size:13px;
+}
+.msgbox .txt strong{display:block;font-size:12.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--azul)}
+.msgbox .txt span{display:block;font-size:11.5px;line-height:1.35;color:var(--texto);margin-top:2px}
+
+/* ===== Botoes ===== */
+.actions{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:8px;margin-top:12px}
+.btn{
+  border:2px solid var(--borda);border-radius:14px;background:#fff;color:var(--azul);
+  font-family:inherit;font-weight:bold;font-size:12px;letter-spacing:.5px;text-transform:uppercase;
+  padding:11px 6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:transform .12s,box-shadow .12s;box-shadow:0 3px 0 #ffeab0;
+}
+.btn .bi{font-size:14px}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #ffeab0}
+.btn.primary{background:var(--amarelo);border-color:var(--amarelo);box-shadow:0 3px 0 var(--amarelo-esc)}
+.btn.primary:active{box-shadow:0 1px 0 var(--amarelo-esc)}
+.btn.off{opacity:.55}
+
+/* ===== Rodape de acolhimento ===== */
+.care{
+  display:flex;gap:11px;align-items:center;
+  background:#fff9e6;border:2px solid var(--borda);border-radius:18px;
+  padding:13px;margin:14px 0 16px;
+}
+.care .heart{
+  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  background:var(--amarelo);display:grid;place-items:center;font-size:15px;
+}
+.care strong{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.4px;color:var(--azul)}
+.care p{margin:3px 0 0;font-size:11.5px;line-height:1.35;color:var(--texto)}
+.care .sign{margin-top:4px;font-size:12px;font-weight:bold;color:var(--azul)}
+.care .sign i{font-family:"Segoe Script","Brush Script MT",cursive;color:var(--vermelho);font-size:13px}
+
+.bar{
+  background:var(--azul-esc);color:var(--amarelo);
+  text-align:center;font-size:11px;font-weight:bold;letter-spacing:.3px;
+  padding:11px 12px;
+}
+
+/* ===== Modais ===== */
+.overlay{
+  position:fixed;inset:0;display:none;place-items:center;z-index:100;padding:18px;
+  background:rgba(8,45,99,.5);backdrop-filter:blur(5px);
+}
+.overlay.show{display:grid}
+.popup{
+  width:min(420px,92vw);background:var(--creme);border:4px solid var(--amarelo);
+  border-radius:26px;padding:26px 22px;text-align:center;
+  box-shadow:0 25px 70px rgba(0,0,0,.3);
+  animation:popupIn .6s cubic-bezier(.16,1,.3,1);
+}
+@keyframes popupIn{0%{opacity:0;transform:translateY(28px) scale(.75)}60%{opacity:1;transform:translateY(-4px) scale(1.05)}100%{opacity:1;transform:none}}
+.popup .big-icon{
+  width:68px;height:68px;margin:auto;border-radius:50%;background:var(--amarelo);
+  display:grid;place-items:center;font-size:36px;animation:iconPop .8s ease;
+}
 @keyframes iconPop{0%{transform:scale(0) rotate(-30deg)}60%{transform:scale(1.18) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
-.pair-popup h2{font-size:clamp(28px,6vw,44px);margin:14px 0 8px;color:#102f63}
-.pair-popup p{font-size:clamp(18px,3vw,24px);line-height:1.4;color:#333;margin:0 0 22px;font-weight:600}
+.popup h2{font-size:26px;margin:13px 0 8px;color:var(--azul);text-transform:uppercase;letter-spacing:.5px}
+.popup p{font-size:15px;line-height:1.45;color:var(--texto);margin:0 0 20px;font-weight:600}
+.popup .btn{width:100%}
+.steps{text-align:left;margin:0 0 20px;padding:0;display:grid;gap:9px}
+.steps li{
+  display:flex;gap:10px;align-items:center;list-style:none;
+  background:#fff;border:2px solid var(--borda);border-radius:14px;padding:10px 12px;
+  font-size:13px;line-height:1.3;color:var(--texto);font-weight:600;
+}
+.steps li b{
+  flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:var(--amarelo);
+  color:var(--azul);display:grid;place-items:center;font-size:12px;
+}
+
 .confetti{position:fixed;top:-20px;z-index:110;pointer-events:none;animation:confettiFall 1.5s ease-out forwards}
 @keyframes confettiFall{to{transform:translate(var(--dx),110vh) rotate(720deg);opacity:0}}
-@media(max-width:600px){.title h1{font-size:34px}.title p{font-size:14px}.board{gap:7px}.front{padding:5px}.front .word{font-size:16px}.front .tip{font-size:13px!important;line-height:1.2}.back{font-size:20px}.back .mini{font-size:9px}.stats{grid-template-columns:repeat(3,1fr)}.stat small{font-size:10px}.rules-top span{font-size:12px}.rules-top strong{font-size:16px}}
 
-/* Mobile / WhatsApp */
-@media(max-width:800px){body{font-size:15px}.container{padding:10px}header{gap:8px;justify-content:center}.logo,.logo-text{width:120px;max-height:58px}.logo-text b{font-size:21px}.logo-text i{font-size:13px}.title{min-width:200px}.title h1{font-size:clamp(25px,8vw,38px);line-height:1}.title p{font-size:11px;line-height:1.2}.ribbon{font-size:27px}.layout{display:flex;flex-direction:column;gap:12px;margin-top:12px}.panel{order:0;padding:14px;border-radius:18px}.panel h2{font-size:20px;margin:0 0 9px}.how{gap:7px}.how div{font-size:13px}.icon{width:32px;height:32px;min-width:32px;font-size:17px}.message{margin-top:10px;padding:10px;font-size:13px;line-height:1.3}.gamebox{order:1;padding:12px;border-radius:18px}.rules-top{padding:10px;gap:6px;margin-bottom:10px;font-size:12px}.rules-top strong{font-size:15px;width:100%}.rules-top span{padding:6px 7px;font-size:11px}.stats{gap:6px;margin-bottom:10px}.stat{padding:7px 4px;border-radius:11px}.stat b{font-size:19px}.stat small{font-size:9px}.board{grid-template-columns:repeat(3,1fr);gap:7px}.face{border-width:2px;border-radius:12px;padding:5px}.back{font-size:19px}.back .mini{font-size:8px}.front{overflow:hidden}.front .emoji{font-size:29px}.front .word{font-size:14px;line-height:1.05}.front .tip{font-size:11px;line-height:1.15;margin-top:5px}.bottom{margin-top:10px;padding:10px;font-size:12px;line-height:1.3}footer{margin-top:12px;padding:12px;font-size:12px;border-radius:14px}footer button{width:100%;font-size:14px;padding:11px}.pair-overlay{padding:12px}.pair-popup{padding:22px 16px;border-width:3px;border-radius:22px}.pair-popup h2{font-size:29px;line-height:1.05}.pair-popup p{font-size:17px;line-height:1.35}.pair-popup .big-icon{width:62px;height:62px;font-size:34px}.pair-popup button{font-size:14px;padding:11px 16px}}
-@media(max-width:390px){.logo,.logo-text{width:105px}.title h1{font-size:27px}.title p{font-size:10px}.front .emoji{font-size:23px}.front .word{font-size:11px}.front .tip{font-size:9px}.back{font-size:16px}.back .mini{font-size:7px}}
+/* ===== Celular pequeno ===== */
+@media(max-width:380px){
+  body{padding:8px}
+  .app-inner{padding:14px 11px 0}
+  h1{font-size:22px}
+  .logo{width:175px}
+  .board{gap:7px}
+  .front .emoji{font-size:22px}
+  .front .word{font-size:10.5px}
+  .front .tip{font-size:8px}
+  .back{font-size:25px}
+  .btn{font-size:10.5px;padding:10px 4px;gap:4px}
+  .stat b{font-size:18px}
+  .deco.sun1{font-size:48px}
+}
+
+/* ===== Tablet e desktop ===== */
+@media(min-width:640px){
+  body{padding:26px 22px}
+  .app{max-width:820px;border-radius:34px}
+  .app-inner{padding:26px 24px 0}
+  .logo{width:250px;max-height:92px}
+  h1{font-size:34px}
+  .badge{font-size:15px;padding:7px 22px}
+  .tagline{font-size:15px;margin-bottom:18px}
+  .stats{padding:14px 8px;border-radius:20px;margin-bottom:18px}
+  .stat .ico{font-size:20px}
+  .stat small{font-size:11px}
+  .stat b{font-size:25px}
+  .board{gap:12px}
+  .face{border-radius:16px}
+  .back{font-size:38px}
+  .front .emoji{font-size:34px}
+  .front .word{font-size:15px}
+  .front .tip{font-size:11px}
+  .msgbox{padding:14px 16px;border-radius:18px;gap:12px}
+  .msgbox .bubble{width:32px;height:32px;font-size:16px}
+  .msgbox .txt strong{font-size:14.5px}
+  .msgbox .txt span{font-size:13px}
+  .btn{font-size:14px;padding:13px 10px;border-radius:16px}
+  .btn .bi{font-size:17px}
+  .care{padding:16px;gap:14px}
+  .care .heart{width:36px;height:36px;font-size:18px}
+  .care strong{font-size:15px}
+  .care p{font-size:13px}
+  .care .sign{font-size:14px}
+  .bar{font-size:13px;padding:14px}
+  .deco.ribbon{font-size:44px;top:18px;left:20px}
+  .deco.sun1{font-size:78px;top:92px;right:12px}
+  .deco.sun2{font-size:44px}
+  .popup{padding:32px 26px}
+  .popup h2{font-size:32px}
+  .popup p{font-size:17px}
+  .popup .big-icon{width:78px;height:78px;font-size:42px}
+  .steps li{font-size:14.5px}
+}
+
+/* ===== Telas largas ===== */
+@media(min-width:900px){
+  .app-inner{padding:32px 34px 0}
+  .logo{width:300px;max-height:110px}
+  h1{font-size:42px}
+  .marks i{width:4px;height:18px}
+  .marks i:nth-child(2){height:23px}
+  .badge{font-size:17px;padding:8px 26px}
+  .tagline{font-size:17px;margin-bottom:20px}
+  #status{font-size:16px}
+  .stats{padding:16px 10px}
+  .stat .ico{font-size:24px}
+  .stat small{font-size:12px}
+  .stat b{font-size:30px}
+  .board{gap:14px}
+  .face{border-radius:18px}
+  .back{font-size:48px}
+  .front .emoji{font-size:44px}
+  .front .word{font-size:18px}
+  .front .tip{font-size:13px}
+  .msgbox{padding:16px 18px}
+  .msgbox .bubble{width:36px;height:36px;font-size:18px}
+  .msgbox .txt strong{font-size:16px}
+  .msgbox .txt span{font-size:14px}
+  .actions{gap:12px;margin-top:16px}
+  .btn{font-size:15px;padding:15px 12px}
+  .care{padding:18px 20px;margin:18px 0 20px}
+  .care .heart{width:40px;height:40px;font-size:20px}
+  .care strong{font-size:17px}
+  .care p{font-size:14px}
+  .care .sign{font-size:16px}
+  .bar{font-size:14px;padding:16px}
+  .deco.sun1{font-size:96px;top:100px}
+  .deco.sun2{font-size:52px}
+  .deco.ribbon{font-size:52px}
+}
+
+/* ===== Faixa do CVV ===== */
+.care{margin-bottom:10px}
+.cvv{
+  display:flex;gap:11px;align-items:center;text-decoration:none;
+  background:var(--azul);border-radius:18px;padding:13px;margin:0 0 16px;
+  transition:transform .12s,box-shadow .12s;box-shadow:0 4px 14px rgba(16,47,99,.22);
+}
+.cvv:hover{transform:translateY(-1px)}
+.cvv:active{transform:translateY(1px)}
+.cvv .ring{
+  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  background:var(--amarelo);display:grid;place-items:center;font-size:15px;
+}
+.cvv strong{display:block;font-size:12.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--amarelo)}
+.cvv .cvv-txt>span{display:block;font-size:11.5px;line-height:1.35;color:#d7e1f2;margin-top:3px}
+.cvv .cvv-txt>span b{color:#fff}
+@media(min-width:640px){
+  .care{margin-bottom:12px}
+  .cvv{padding:16px;gap:14px;margin-bottom:20px}
+  .cvv .ring{width:36px;height:36px;font-size:18px}
+  .cvv strong{font-size:15px}
+  .cvv .cvv-txt>span{font-size:13px}
+}
+@media(min-width:900px){
+  .cvv{padding:18px 20px}
+  .cvv .ring{width:40px;height:40px;font-size:20px}
+  .cvv strong{font-size:17px}
+  .cvv .cvv-txt>span{font-size:14px}
+}
 </style>
 </head>
 <body>
-<div class="container">
-<header>
-  <img class="logo" id="logo" src="logo.png" alt="DATALINK cuida">
-  <div class="title">
-    <h1>Memória que <span>Acolhe</span></h1>
-    <p>Setembro Amarelo • Valorizar a vida também é cuidar</p>
-  </div>
-  <div class="ribbon">🎗️</div>
-</header>
 
-<div class="layout">
-  <aside class="panel">
-    <h2>🌻 Como jogar</h2>
-    <div class="how">
-      <div><span class="icon">👆</span><span>Vire duas cartas por vez.</span></div>
-      <div><span class="icon">💛</span><span>Encontre os pares.</span></div>
-      <div><span class="icon">🏆</span><span>Complete todos os pares com o menor número de tentativas.</span></div>
-    </div>
-    <div class="message">💬 <b>Falar é uma forma de cuidar.</b><br>Ouvir com atenção pode fazer diferença no dia de alguém.</div>
-  </aside>
+<div class="app">
+  <span class="deco ribbon">🎗️</span>
+  <span class="deco sun1">🌻</span>
+  <span class="deco sun2">🌻</span>
+  <span class="deco d1">♥</span>
+  <span class="deco d2">♥</span>
+  <span class="deco d3">♥</span>
+  <span class="deco d4">♥</span>
 
-  <main class="gamebox">
-    <div class="rules-top">
-      <strong>🌻 COMO JOGAR</strong>
-      <span>1. Clique em duas cartas para virá-las.</span>
-      <span>2. Encontre os pares iguais.</span>
-      <span>3. Ao acertar, veja a mensagem especial.</span>
+  <div class="app-inner">
+
+    <div class="brand">
+      <img class="logo" id="logo" src="logo.png" alt="DATALINK cuida">
     </div>
+
+    <div class="titlebar">
+      <span class="marks"><i></i><i></i><i></i></span>
+      <h1>Cada Par, Um Cuidado</h1>
+      <span class="marks"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="badge"><span>♥</span> Setembro Amarelo <span>♥</span></div>
+    <p class="tagline">Valorizar a vida também é cuidar!</p>
+
     <div class="stats">
-      <div class="stat"><small>TENTATIVAS</small><b id="attempts">0</b></div>
-      <div class="stat"><small>TEMPO</small><b id="timer">00:00</b></div>
-      <div class="stat"><small>PARES</small><b id="pairs">0/6</b></div>
+      <div class="stat"><span class="ico">🕐</span><small>TEMPO</small><b id="timer">00:00</b></div>
+      <div class="stat"><span class="ico">⭐</span><small>PARES</small><b id="pairs">0/6</b></div>
+      <div class="stat"><span class="ico">🔄</span><small>TENTATIVAS</small><b id="attempts">0</b></div>
     </div>
+
     <div id="status"></div>
     <div class="board" id="board"></div>
-    <div class="bottom" id="pairMessage">
-      💛 Encontre um par para descobrir uma mensagem de acolhimento.
+
+    <div class="msgbox">
+      <span class="bubble">💬</span>
+      <span class="txt" id="pairMessage">
+        <strong>Falar é uma forma de cuidar.</strong>
+        <span>Ouvir com atenção pode fazer diferença no dia de alguém.</span>
+      </span>
     </div>
-  </main>
+
+    <div class="actions">
+      <button class="btn" id="sound"><span class="bi">🔊</span>Som</button>
+      <button class="btn primary" id="restart"><span class="bi">🔄</span>Reiniciar</button>
+      <button class="btn" id="how"><span class="bi">❔</span>Como jogar</button>
+    </div>
+
+    <div class="care">
+      <span class="heart">💛</span>
+      <div>
+        <strong>Você não está sozinho!</strong>
+        <p>Falar é o primeiro passo. Acolher transforma vidas.</p>
+        <div class="sign">DATALINK <i>cuida</i> de você!</div>
+      </div>
+    </div>
+
+    <a class="cvv" href="tel:188">
+      <span class="ring">☎️</span>
+      <span class="cvv-txt">
+        <strong>Precisa conversar? Ligue 188 — CVV</strong>
+        <span>Atendimento 24h, gratuito e sigiloso. Também em <b>cvv.org.br</b></span>
+      </span>
+    </a>
+
+  </div>
+
+  <div class="bar">♥ Setembro Amarelo • Valorizar a vida também é cuidar ♥</div>
 </div>
 
-<footer>
-  <div>🎗️ <strong>A vida é o bem mais precioso.</strong><br>Vamos cuidar juntos.</div>
-  <button id="restart">↻ JOGAR NOVAMENTE</button>
-</footer>
-</div>
-
-<div class="pair-overlay" id="pairOverlay">
-  <div class="pair-popup">
+<div class="overlay" id="pairOverlay">
+  <div class="popup">
     <div class="big-icon" id="pairIcon">💛</div>
-    <h2 id="pairTitle">ACOLHIMENTO</h2>
+    <h2 id="pairTitle">Acolhimento</h2>
     <p id="pairText"></p>
-    <button id="continue">CONTINUAR JOGANDO</button>
+    <button class="btn primary" id="continue">Continuar jogando</button>
+  </div>
+</div>
+
+<div class="overlay" id="howOverlay">
+  <div class="popup">
+    <div class="big-icon">🌻</div>
+    <h2>Como jogar</h2>
+    <ul class="steps">
+      <li><b>1</b>Clique em duas cartas para virá-las.</li>
+      <li><b>2</b>Encontre os pares iguais.</li>
+      <li><b>3</b>Ao acertar, veja a mensagem especial.</li>
+    </ul>
+    <button class="btn primary" id="howClose">Entendi</button>
   </div>
 </div>
 
 <script>
 const cardsData=[
  {word:"Acolhimento",emoji:"🫂",tip:"Receber sem julgamentos."},
- {word:"Empatia",emoji:"💛",tip:"Tentar compreender o outro."},
+ {word:"Empatia",emoji:"💛",tip:"Compreender o outro."},
  {word:"Escuta",emoji:"👂",tip:"Ouvir com atenção."},
- {word:"Apoio",emoji:"🤝",tip:"Ninguém precisa enfrentar tudo sozinho."},
+ {word:"Apoio",emoji:"🤝",tip:"Ninguém enfrenta tudo sozinho."},
  {word:"Cuidado",emoji:"🌻",tip:"Pequenos gestos importam."},
- {word:"Amizade",emoji:"😊",tip:"Estar presente também é cuidar."}
+ {word:"Amizade",emoji:"😊",tip:"Estar presente é cuidar."}
 ];
 
 const pairMessages={
- "Acolhimento":["🫂","ACOLHIMENTO","Acolher alguém é oferecer um lugar seguro, sem julgamentos."],
- "Empatia":["💛","EMPATIA","Tentar compreender o que o outro sente pode fazer diferença."],
- "Escuta":["👂","ESCUTA","Ouvir com atenção é um gesto simples que pode acolher muito."],
- "Apoio":["🤝","APOIO","Ninguém precisa enfrentar tudo sozinho. Estar presente importa."],
- "Cuidado":["🌻","CUIDADO","Pequenos gestos de cuidado podem transformar o dia de alguém."],
- "Amizade":["😊","AMIZADE","Estar presente e demonstrar carinho também é uma forma de cuidar."]
+ "Acolhimento":["🫂","Acolhimento","Acolher alguém é oferecer um lugar seguro, sem julgamentos."],
+ "Empatia":["💛","Empatia","Tentar compreender o que o outro sente pode fazer diferença."],
+ "Escuta":["👂","Escuta","Ouvir com atenção é um gesto simples que pode acolher muito."],
+ "Apoio":["🤝","Apoio","Ninguém precisa enfrentar tudo sozinho. Estar presente importa."],
+ "Cuidado":["🌻","Cuidado","Pequenos gestos de cuidado podem transformar o dia de alguém."],
+ "Amizade":["😊","Amizade","Estar presente e demonstrar carinho também é uma forma de cuidar."]
 };
 
 const $=id=>document.getElementById(id);
 let first=null,second=null,lock=false,attempts=0,pairs=0,seconds=0,timerId=null,started=false;
+let somOn=true,actx=null;
 
 function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
 function fmt(n){return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0")}
+
+function beep(freq,dur,tipo){
+  if(!somOn)return;
+  try{
+    actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(),g=actx.createGain();
+    o.type=tipo||"sine";o.frequency.value=freq;
+    g.gain.setValueAtTime(.09,actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+dur);
+    o.connect(g).connect(actx.destination);
+    o.start();o.stop(actx.currentTime+dur);
+  }catch(e){}
+}
+const somVirar=()=>beep(520,.09);
+const somAcerto=()=>{beep(660,.12);setTimeout(()=>beep(880,.18),110)};
+const somErro=()=>beep(180,.2,"triangle");
+const somFim=()=>{[523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.22),i*130))};
 
 function startTimer(){
   if(started)return;
@@ -190,13 +497,17 @@ function confetti(){
   }
 }
 
+function setMensagem(titulo,texto){
+  $("pairMessage").innerHTML="<strong>"+titulo+"</strong><span>"+texto+"</span>";
+}
+
 function showPairPopup(word){
   const d=pairMessages[word];
   if(!d)return;
   $("pairIcon").textContent=d[0];
   $("pairTitle").textContent=d[1];
   $("pairText").textContent=d[2];
-  $("pairMessage").innerHTML="💛 <b>"+d[1]+"</b> — "+d[2];
+  setMensagem(d[0]+" "+d[1],d[2]);
   $("pairOverlay").classList.add("show");
   confetti();
 }
@@ -208,18 +519,20 @@ function closePairPopup(){
 
 function finish(){
   stopTimer();
-  $("status").innerHTML="🏆 Parabéns! Você encontrou todos os pares em <b>"+attempts+"</b> tentativas e <b>"+fmt(seconds)+"</b>.";
-  $("pairMessage").innerHTML="🎗️ <b>Cuidar da vida é um gesto diário.</b><br>Se precisar conversar, o CVV atende 24h pelo <b>188</b> (ligação gratuita) e em <b>cvv.org.br</b>.";
+  somFim();
+  $("status").innerHTML="🏆 Parabéns! Todos os pares em <b>"+attempts+"</b> tentativas e <b>"+fmt(seconds)+"</b>.";
+  setMensagem("🎗️ Cuidar da vida é um gesto diário.","Se precisar conversar, o CVV atende 24h pelo <b>188</b> (ligação gratuita) e em <b>cvv.org.br</b>.");
   confetti();
 }
 
-function buildCard(item){
+function buildCard(item,i){
   const card=document.createElement("div");
   card.className="card pair-pop";
   card.dataset.word=item.word;
+  card.style.animationDelay=(i*40)+"ms";
   card.innerHTML=
     '<div class="card-inner">'+
-      '<div class="face back">🎗️<div class="mini">SETEMBRO AMARELO</div></div>'+
+      '<div class="face back">&hearts;</div>'+
       '<div class="face front">'+
         '<div class="emoji">'+item.emoji+'</div>'+
         '<div class="word">'+item.word+'</div>'+
@@ -235,6 +548,7 @@ function flip(card){
   if(card.classList.contains("flipped")||card.classList.contains("matched"))return;
   startTimer();
   card.classList.add("flipped");
+  somVirar();
   if(!first){first=card;return}
   second=card;
   lock=true;
@@ -248,11 +562,13 @@ function flip(card){
       a.classList.remove("flipped");b.classList.remove("flipped");
       pairs++;
       $("pairs").textContent=pairs+"/"+cardsData.length;
+      somAcerto();
       showPairPopup(a.dataset.word);
       reset();
     },420);
   }else{
     a.classList.add("wrong");b.classList.add("wrong");
+    somErro();
     setTimeout(()=>{
       a.classList.remove("flipped","wrong");
       b.classList.remove("flipped","wrong");
@@ -270,21 +586,35 @@ function startGame(){
   $("timer").textContent="00:00";
   $("pairs").textContent="0/"+cardsData.length;
   $("status").textContent="";
-  $("pairMessage").innerHTML="💛 Encontre um par para descobrir uma mensagem de acolhimento.";
+  setMensagem("Falar é uma forma de cuidar.","Ouvir com atenção pode fazer diferença no dia de alguém.");
   $("pairOverlay").classList.remove("show");
   const board=$("board");
   board.innerHTML="";
-  shuffle([...cardsData,...cardsData]).forEach(item=>board.appendChild(buildCard(item)));
+  shuffle([...cardsData,...cardsData]).forEach((item,i)=>board.appendChild(buildCard(item,i)));
 }
 
 $("restart").addEventListener("click",startGame);
 $("continue").addEventListener("click",closePairPopup);
 $("pairOverlay").addEventListener("click",e=>{if(e.target.id==="pairOverlay")closePairPopup()});
+$("how").addEventListener("click",()=>$("howOverlay").classList.add("show"));
+$("howClose").addEventListener("click",()=>$("howOverlay").classList.remove("show"));
+$("howOverlay").addEventListener("click",e=>{if(e.target.id==="howOverlay")e.currentTarget.classList.remove("show")});
+$("sound").addEventListener("click",function(){
+  somOn=!somOn;
+  this.classList.toggle("off",!somOn);
+  this.querySelector(".bi").textContent=somOn?"🔊":"🔇";
+  if(somOn)somVirar();
+});
 $("logo").addEventListener("error",function(){
   const d=document.createElement("div");
   d.className="logo-text";
   d.innerHTML="<b>DATALINK</b><i>cuida</i>";
   this.replaceWith(d);
+});
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Escape")return;
+  $("howOverlay").classList.remove("show");
+  if($("pairOverlay").classList.contains("show"))closePairPopup();
 });
 
 startGame();
